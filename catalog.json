@@ -1,0 +1,229 @@
+{
+  "version": 1,
+  "files": [
+    {
+      "kind": "Pics",
+      "path": "Text/Русский/Напоминания/01-А ну бегом спать!.png",
+      "sha": "aa02c63652eb7fb27db27b9de51d6a436c73621d",
+      "bytes": 19801,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/Русский/Напоминания/01-Выпрями спину!.png",
+      "sha": "e7b072c5d865dcfa6e9848dd72052ef7b7e0e1ed",
+      "bytes": 16441,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/Русский/Напоминания/01-Подними жопу!.png",
+      "sha": "95dc61c1ee684d1dd4bc7d58f1d91bb3a078d9ce",
+      "bytes": 15334,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/Русский/Напоминания/01-Сделай перерыв!.png",
+      "sha": "f0a7b97eb8f24e3a7e2f5274a1f75c7b6a612430",
+      "bytes": 18540,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/Русский/Напоминания/Разомни глаза.png",
+      "sha": "e1ceecd96ab74f221ff3cd611686532e6147e700",
+      "bytes": 20916,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/Русский/Приятные/01-Доброе утро.png",
+      "sha": "6da931d989d7b78ac546dd852e1a0344b82010ce",
+      "bytes": 20407,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/Русский/Приятные/01-С днём рождения!.png",
+      "sha": "64bd6420da45b09322d991e339f4e942fc6c6bcf",
+      "bytes": 24585,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/Русский/Приятные/01-Спокойной ночи.png",
+      "sha": "abadd0c26a781dce93c8ffe771158b3180729236",
+      "bytes": 21893,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/Русский/Срочные/01-ЕРЖАН, ВСТАВАЙ НА РАБОТУ ПОРА.png",
+      "sha": "1f4cea40622b2f8a39695a4a4caaddbc421b675e",
+      "bytes": 51880,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/Русский/Срочные/01-ПРОСНИСЬ И ПОЙ.png",
+      "sha": "73218a87ca639a72b02ce84cb7a528f611e9d35f",
+      "bytes": 26693,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/Русский/Срочные/01-Я НЕ ХОТЕЛ БЫТЬ НАВЯЗЧИВЫМ НО У ТЕБЯ ПРОЕКТ ГОРИТ ИДИ РАБОТАТЬ ЖИ.png",
+      "sha": "e2aa62a0a880130ffbcd660073e144e7d5084475",
+      "bytes": 110519,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/Русский/Странные/01-А снаружи трава такая зелёная.png",
+      "sha": "75d8d4c55c54dbf27e03fa0b6ea082692b3e1ec7",
+      "bytes": 51062,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/Русский/Странные/01-Выйду я на улицу, гляну на село.png",
+      "sha": "bc5d0019da3acfe4b197af2f4c3ea328f0eaca13",
+      "bytes": 52054,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/Русский/Странные/01-Покорми енота Покорми енота, кому говорю!.png",
+      "sha": "0e061ee942e5277ec5f12308307681cca9971354",
+      "bytes": 81555,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/Русский/Странные/01-Почему ты ещё здесь.png",
+      "sha": "555188f86a3893040201ac3ab6044b48a24c6f45",
+      "bytes": 43596,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/Русский/Странные/01-Чё как дела Ещё жив.png",
+      "sha": "f3e2f32e4f3e1b256a2d1059de071ed8edd977d2",
+      "bytes": 43834,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/English/Pleasant/01-Good morning.png",
+      "sha": "4293952c5f6033c6d2191e36a1a81fbb235700ae",
+      "bytes": 22224,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/English/Pleasant/01-Happy birthday!.png",
+      "sha": "2de716b174d1c57b27fc728704a7908c96aaf815",
+      "bytes": 25899,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/English/Pleasant/01-It's never too late to reevaluate.png",
+      "sha": "eed4b438bb84f021a4ccf767a9783d17889a0a6b",
+      "bytes": 42111,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/English/Pleasant/01-Sweat dreams Wish You I.png",
+      "sha": "1577f937bdf44a0cef88d8386a6868cf227f0a12",
+      "bytes": 38777,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/English/Reminders/01-Drink some water!.png",
+      "sha": "2c4cba7753b19fa443480fd658efd75527ac9916",
+      "bytes": 19625,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/English/Reminders/01-R s y u e e e t o r y s.png",
+      "sha": "1dbb58e3e46cc4696986e508a6c0c362e3ccf7e7",
+      "bytes": 23013,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/English/Reminders/01-Sit up straight!.png",
+      "sha": "87bba30f7d9717652405a3180adf5cd65f24fa2e",
+      "bytes": 18268,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/English/Reminders/01-Stretch your legs!.png",
+      "sha": "ea33e647a6cb2e96c6b378cad001ec602b0cee80",
+      "bytes": 22958,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/English/Reminders/01-Take a break!.png",
+      "sha": "eae628028e20f0520456e986565827696e59a751",
+      "bytes": 15322,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/English/Strange/01-Feed the racoon!.png",
+      "sha": "07f2cf75b54d4f0dfc339039dc13781bb86eea3f",
+      "bytes": 31071,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/English/Strange/01-This is too easy!.png",
+      "sha": "4417d420da065a06a31ffca89e9c8792bfa5f43c",
+      "bytes": 32499,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/English/Urgent/01-A lil' C-4 knockin' at your door!.png",
+      "sha": "cb25a503565575f2e5bf7c984a916318ca8e191b",
+      "bytes": 44068,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/English/Urgent/01-Cha-ching!.png",
+      "sha": "b48eef0b3364a2c34450d06a62ac5e6b870b01e9",
+      "bytes": 20397,
+      "hasPreview": true
+    },
+    {
+      "kind": "Pics",
+      "path": "Text/English/Urgent/01-Wake up, Neo!.png",
+      "sha": "49ce6e4d509dc50db0b89a890f8da16ca3016f4c",
+      "bytes": 25142,
+      "hasPreview": true
+    },
+    {
+      "kind": "Presets",
+      "path": "Scary/Котопризрак.scp",
+      "sha": "39e51282a7484ecfc93d4a6a236fd11b025a7dc5",
+      "bytes": 538630,
+      "hasPreview": true
+    },
+    {
+      "kind": "Presets",
+      "path": "Scary/LSD Дискотека.scp",
+      "sha": "0ed58e55ff5ac6a9dc4a3e7eb80babe2db5eca89",
+      "bytes": 3996673,
+      "hasPreview": true
+    }
+  ]
+}
