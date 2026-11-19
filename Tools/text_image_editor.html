@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ScreenCrawler — Text image editor</title>
+<style>
+:root{color-scheme:dark;--bg:#10151c;--panel:#1b2530;--field:#101820;--line:#46586a;--text:#edf2f6;--muted:#a6b4c2;--accent:#79d3ad}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,sans-serif}main{max-width:1250px;margin:auto;padding:24px}h1,h2,p{margin:0}h1{font-size:25px}h2{font-size:17px}header,.actions,.section-head,.check{display:flex;align-items:center;gap:10px;flex-wrap:wrap}header,.section-head{justify-content:space-between}.muted{color:var(--muted);font-size:13px}header{margin-bottom:18px}.layout{display:grid;grid-template-columns:minmax(270px,1fr) minmax(320px,1.25fr);gap:16px;align-items:start}.stack{display:grid;gap:16px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:12px;min-width:0}.settings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.full{grid-column:1/-1}label{display:grid;gap:4px;font-size:13px}input,textarea,select,button{font:inherit;color:inherit;background:var(--field);border:1px solid var(--line);border-radius:6px;min-width:0;padding:7px 10px}input[type=color]{width:100%;height:36px;padding:3px}input[type=checkbox]{accent-color:var(--accent)}button{cursor:pointer;background:#2c3b48}button:hover:not(:disabled){border-color:var(--accent)}button:disabled{opacity:.45;cursor:default}.primary{color:#0b2118;background:var(--accent);font-weight:700;border-color:var(--accent)}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.text-row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:8px;align-items:start}.text-row textarea{resize:vertical;width:100%;min-height:58px}.text-row.active textarea{border-color:var(--accent)}.row-number{padding-top:8px;color:var(--muted)}#texts{display:grid;gap:8px}.preview{min-height:240px;height:300px;display:grid;place-items:center;padding:16px;overflow:hidden;border:1px solid var(--line);border-radius:8px;background-color:#ececec;background-image:conic-gradient(#c4c4c4 25%,#ececec 0 50%,#c4c4c4 0 75%,#ececec 0);background-size:24px 24px}.preview canvas{max-width:100%;max-height:100%;object-fit:contain;min-width:0;min-height:0}.preview[data-bg=dark]{background:#171717}.preview[data-bg=light]{background:#fff}.preview-message{color:#46505a;background:#ffffffdd;padding:6px 10px;border-radius:6px}#status{min-height:1.5em;overflow-wrap:anywhere}.grow{flex:1}.template-line{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px}.export-panel{position:sticky;top:12px;align-self:start}[hidden]{display:none!important}@media(max-width:800px){main{padding:12px}.layout{grid-template-columns:1fr}.export-panel{position:static}.preview{height:240px}}
+</style>
+</head>
+<body><main>
+<header><div><h1 data-ru="Редактор текстовых изображений">Text image editor</h1><p class="muted" data-ru="ScreenCrawler Tools · автономный редактор · прозрачный фон">ScreenCrawler Tools · offline editor · transparent background</p></div><button id="lang" type="button">Русский</button></header>
+<div class="layout">
+<div class="stack">
+<section class="panel"><div class="section-head"><h2 data-ru="Тексты">Texts</h2><span id="count" class="muted">0 / 20</span></div><p class="muted" data-ru="Каждое поле — отдельная картинка. Новое поле добавляется автоматически. Можно вводить несколько строк.">Each field creates a separate image. New fields appear automatically. Multiline text is supported.</p><div id="texts"></div></section>
+<section class="panel"><h2 data-ru="Шаблоны оформления">Style templates</h2><div class="template-line"><input id="templateName" maxlength="80" aria-label="Template name" placeholder="Template name / Название"><button id="saveTemplate" data-ru="Сохранить">Save</button><button id="reset" data-ru="Сброс">Reset</button></div><div class="template-line"><select id="templates" aria-label="Saved templates"></select><button id="loadTemplate" data-ru="Применить">Load</button><button id="deleteTemplate" data-ru="Удалить">Delete</button></div><div class="actions"><button id="exportTemplate" data-ru="Экспорт JSON">Export JSON</button><button id="importTemplate" data-ru="Импорт JSON">Import JSON</button><input id="templateFile" type="file" accept=".json,application/json" hidden></div><p class="muted" data-ru="Шаблоны не содержат текстов. JSON позволяет перенести оформление в другой браузер или компьютер.">Templates contain styles only. JSON lets you move a style to another browser or computer.</p></section>
+<section class="panel"><h2 data-ru="Оформление">Style</h2><div id="settings" class="settings">
+<label class="full"><span data-ru="Шрифт (название установленного шрифта)">Font (installed family name)</span><input id="font" list="fonts" value="Arial" maxlength="100"><datalist id="fonts"><option>Arial</option><option>Arial Black</option><option>Calibri</option><option>Cambria</option><option>Comic Sans MS</option><option>Consolas</option><option>Georgia</option><option>Impact</option><option>Segoe UI</option><option>Tahoma</option><option>Times New Roman</option><option>Trebuchet MS</option><option>Verdana</option><option>sans-serif</option><option>serif</option><option>monospace</option></datalist><button id="scanFonts" type="button" data-ru="Найти установленные шрифты" hidden>Find installed fonts</button></label>
+<label><span data-ru="Размер, пикс.">Size, px</span><input id="size" type="number" min="8" max="512" value="96"></label>
+<label><span data-ru="Насыщенность">Weight</span><select id="weight"><option value="400" data-ru="Обычный">Regular</option><option value="600" data-ru="Полужирный">Semibold</option><option value="700" selected data-ru="Жирный">Bold</option><option value="900" data-ru="Очень жирный">Black</option></select></label>
+<label class="check"><input id="italic" type="checkbox"><span data-ru="Курсив">Italic</span></label>
+<label><span data-ru="Выравнивание">Alignment</span><select id="align"><option value="left" data-ru="По левому краю">Left</option><option value="center" selected data-ru="По центру">Center</option><option value="right" data-ru="По правому краю">Right</option></select></label>
+<label><span data-ru="Интервал строк, %">Line spacing, %</span><input id="spacing" type="number" min="75" max="250" value="115"></label>
+<label><span data-ru="Прозрачные поля, пикс.">Transparent padding, px</span><input id="padding" type="number" min="0" max="256" value="4"></label>
+<label><span data-ru="Заливка">Fill</span><select id="fill"><option value="solid" data-ru="Один цвет">Solid</option><option value="gradient" data-ru="Градиент">Gradient</option></select></label>
+<label><span data-ru="Основной цвет / начало">Color / start</span><input id="color" type="color" value="#18283f"></label>
+<label class="gradient"><span data-ru="Конечный цвет">End color</span><input id="color2" type="color" value="#e04417"></label>
+<label class="gradient"><span data-ru="Угол градиента (90° — вниз)">Gradient angle (90° down)</span><input id="angle" type="number" min="0" max="360" value="90"></label>
+<label><span data-ru="Толщина обводки, пикс.">Outline width, px</span><input id="stroke" type="number" min="0" max="80" value="4"></label>
+<label><span data-ru="Цвет обводки">Outline color</span><input id="strokeColor" type="color" value="#ffffff"></label>
+<label class="check full"><input id="shadow" type="checkbox"><span data-ru="Тень">Shadow</span></label>
+<label class="shadow"><span data-ru="Цвет тени">Shadow color</span><input id="shadowColor" type="color" value="#000000"></label>
+<label class="shadow"><span data-ru="Непрозрачность, %">Opacity, %</span><input id="shadowOpacity" type="number" min="0" max="100" value="65"></label>
+<label class="shadow"><span data-ru="Размытие, пикс.">Blur, px</span><input id="blur" type="number" min="0" max="100" value="8"></label>
+<label class="shadow"><span data-ru="Смещение X, пикс.">Offset X, px</span><input id="shadowX" type="number" min="-100" max="100" value="3"></label>
+<label class="shadow"><span data-ru="Смещение Y, пикс.">Offset Y, px</span><input id="shadowY" type="number" min="-100" max="100" value="4"></label>
+</div></section>
+</div>
+<section class="panel export-panel">
+<div class="section-head"><h2 data-ru="Предпросмотр">Preview</h2><select id="previewBg" aria-label="Preview background"><option value="checker" data-ru="Шахматный фон">Checkerboard</option><option value="light" data-ru="Светлый фон">Light</option><option value="dark" data-ru="Тёмный фон">Dark</option></select></div>
+<div id="preview" class="preview" data-bg="checker"><canvas id="canvas" hidden></canvas><span id="previewEmpty" class="preview-message" data-ru="Выберите или введите текст">Select or enter text</span></div>
+<p class="muted" id="dimensions"></p><div class="actions"><button id="export" class="primary grow" data-ru="Создать изображения">Create images</button><button id="exportOne" data-ru="Только выбранное">Selected only</button></div>
+<p class="muted" data-ru="Одна картинка сохраняется как PNG, несколько — как ZIP с отдельными прозрачными PNG. Фон предпросмотра не экспортируется.">One image is saved as PNG; multiple images as a ZIP of separate transparent PNGs. The preview background is not exported.</p>
+<p id="status" role="status" aria-live="polite"></p>
+</section></div></main>
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const MAX=20, MAX_DIM=8192, MAX_PIXELS=16000000, MAX_ZIP=128*1024*1024;
+let ru=(navigator.language||"").toLowerCase().startsWith("ru"), active=null, busy=false;
+const msg=(en,r)=>ru?r:en;
+const ids=["font","size","weight","italic","align","spacing","padding","fill","color","color2","angle","stroke","strokeColor","shadow","shadowColor","shadowOpacity","blur","shadowX","shadowY"];
+const fields=ids.map($);
+const defaults=Object.fromEntries(fields.map(e=>[e.id,e.type==="checkbox"?e.checked:e.value]));
+const staticStrings=[...document.querySelectorAll("[data-ru]")].map(e=>[e,e.textContent]);
+function setLanguage(){document.documentElement.lang=ru?"ru":"en";for(const [e,en] of staticStrings)e.textContent=ru?e.dataset.ru:en;$("lang").textContent=ru?"English":"Русский";refreshRows();refreshTemplates();schedulePreview();}
+$("lang").onclick=()=>{ru=!ru;setLanguage()};
+function status(s){$("status").textContent=s}
+function readStyle(){const result={};for(const e of fields){if(e.type==="checkbox")result[e.id]=e.checked;else if(e.type==="number"){const v=e.valueAsNumber;result[e.id]=String(Math.max(Number(e.min),Math.min(Number(e.max),Number.isFinite(v)?v:Number(defaults[e.id]))));}else result[e.id]=e.value||defaults[e.id];}return result;}
+function cleanStyle(input){const out={...defaults};if(!input||typeof input!=="object")throw Error(msg("Invalid style","Некорректный шаблон"));for(const e of fields){const v=input[e.id];if(e.type==="checkbox"){if(typeof v==="boolean")out[e.id]=v}else if(e.type==="number"){if((typeof v==="number"||typeof v==="string")&&String(v).trim()!==""&&Number.isFinite(Number(v)))out[e.id]=String(Math.max(Number(e.min),Math.min(Number(e.max),Number(v))))}else if(e.type==="color"){if(typeof v==="string"&&/^#[0-9a-f]{6}$/i.test(v))out[e.id]=v}else if(e.tagName==="SELECT"){if([...e.options].some(o=>o.value===v))out[e.id]=v}else if(typeof v==="string"&&v.trim())out[e.id]=v.slice(0,100);}return out;}
+function applyStyle(s){s=cleanStyle(s);for(const e of fields){if(e.type==="checkbox")e.checked=s[e.id];else e.value=s[e.id];}syncOptions();schedulePreview();}
+function syncOptions(){for(const e of document.querySelectorAll(".gradient"))e.hidden=$("fill").value!=="gradient";for(const e of document.querySelectorAll(".shadow"))e.hidden=!$("shadow").checked}
+$("settings").addEventListener("input",()=>{syncOptions();schedulePreview()});
+$("reset").onclick=()=>applyStyle(defaults);
+if(typeof window.queryLocalFonts==="function"){$("scanFonts").hidden=false;$("scanFonts").onclick=async()=>{try{const all=await window.queryLocalFonts();const names=new Set([...$("fonts").options].map(o=>o.value));for(const f of all)names.add(f.family);$("fonts").replaceChildren(...[...names].sort().map(n=>{const o=document.createElement("option");o.value=n;return o}));status(msg("Font list updated.","Список шрифтов обновлён."));}catch{status(msg("Font enumeration unavailable. Enter the font name manually.","Список шрифтов недоступен. Введите название вручную."));}}}
+function rows(){return [...$("texts").children]}
+function filled(){return rows().map(r=>r.querySelector("textarea")).filter(e=>e.value.trim())}
+function addRow(){if(rows().length>=MAX)return;const row=document.createElement("div");row.className="text-row";const num=document.createElement("span");num.className="row-number";const ta=document.createElement("textarea");ta.rows=2;ta.maxLength=1000;const del=document.createElement("button");del.type="button";del.textContent="×";row.append(num,ta,del);$("texts").append(row);
+ta.addEventListener("focus",()=>{active=ta;refreshRows();schedulePreview()});ta.addEventListener("input",()=>{active=ta;ensureRow();refreshRows();schedulePreview()});
+del.onclick=()=>{const index=rows().indexOf(row);row.remove();if(active===ta)active=rows()[Math.min(index,rows().length-1)]?.querySelector("textarea")||null;ensureRow();refreshRows();schedulePreview();};}
+function ensureRow(){const list=rows();if(!list.length||(list.length<MAX&&list.at(-1).querySelector("textarea").value.trim()))addRow();}
+function refreshRows(){const list=rows();list.forEach((r,i)=>{const ta=r.querySelector("textarea"),del=r.querySelector("button");r.firstChild.textContent=(i+1)+".";ta.placeholder=msg("Enter text…","Введите текст…");ta.setAttribute("aria-label",msg("Text ","Текст ")+(i+1));del.setAttribute("aria-label",msg("Remove text ","Удалить текст ")+(i+1));del.disabled=list.length===1&&!ta.value;r.classList.toggle("active",ta===active)});$("count").textContent=filled().length+" / "+MAX;$("export").disabled=busy||!filled().length;$("exportOne").disabled=busy||!active?.value.trim();}
+const templateKey="screencrawler.textStyles.v1";
+let templates=Object.create(null);
+try{const stored=JSON.parse(localStorage.getItem(templateKey)||"{}");for(const [k,v] of Object.entries(stored))templates[k]=cleanStyle(v);}catch{}
+function persist(){try{localStorage.setItem(templateKey,JSON.stringify(templates));return true}catch{status(msg("Browser storage unavailable. Export JSON to keep your style.","Хранилище браузера недоступно. Экспортируйте JSON, чтобы сохранить стиль."));return false}}
+function refreshTemplates(select){const old=select??$("templates").value;const placeholder=document.createElement("option");placeholder.value="";placeholder.textContent=msg("Select template…","Выберите шаблон…");$("templates").replaceChildren(placeholder,...Object.keys(templates).sort().map(n=>{const o=document.createElement("option");o.value=n;o.textContent=n;return o}));if(Object.hasOwn(templates,old))$("templates").value=old;const enabled=!!$("templates").value;$("loadTemplate").disabled=!enabled;$("deleteTemplate").disabled=!enabled;}
+$("templates").onchange=()=>refreshTemplates();
+$("saveTemplate").onclick=()=>{const name=$("templateName").value.trim();if(!name){status(msg("Enter a template name.","Введите название шаблона."));return}if(Object.hasOwn(templates,name)&&!confirm(msg("Replace this template?","Заменить этот шаблон?")))return;templates[name]=readStyle();refreshTemplates(name);if(persist())status(msg("Template saved.","Шаблон сохранён."));};
+$("loadTemplate").onclick=()=>{const name=$("templates").value;if(Object.hasOwn(templates,name)){applyStyle(templates[name]);$("templateName").value=name;status(msg("Template loaded.","Шаблон применён."));}};
+$("deleteTemplate").onclick=()=>{const name=$("templates").value;if(!Object.hasOwn(templates,name)||!confirm(msg("Delete this template?","Удалить этот шаблон?")))return;delete templates[name];refreshTemplates();if(persist())status(msg("Template removed.","Шаблон удалён."));};
+function safeName(s){return s.normalize("NFC").replace(/[\x00-\x1f<>:"/\\|?*]/g," ").replace(/\s+/g," ").trim().replace(/[. ]+$/g,"").slice(0,65).replace(/[\uD800-\uDBFF]$/,"")||"text"}
+function download(blob,name){const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),30000)}
+$("exportTemplate").onclick=()=>{const name=$("templateName").value.trim()||"style";download(new Blob([JSON.stringify({version:1,name,style:readStyle()},null,2)],{type:"application/json"}),"style-"+safeName(name)+".json")};
+$("importTemplate").onclick=()=>$("templateFile").click();
+$("templateFile").onchange=async()=>{const f=$("templateFile").files[0];$("templateFile").value="";if(!f)return;try{if(f.size>100000)throw Error();const d=JSON.parse(await f.text());if(d.version!==1||!d.style)throw Error();applyStyle(d.style);$("templateName").value=String(d.name||"").slice(0,80);status(msg("Style imported. Save it as a template if needed.","Стиль импортирован. При необходимости сохраните его как шаблон."));}catch{status(msg("Invalid template file.","Некорректный файл шаблона."));}};
+function fontSpec(s){const family=s.font.trim()||"Arial";const generic=["serif","sans-serif","monospace","system-ui","cursive","fantasy"].includes(family);return (s.italic?"italic ":"")+s.weight+" "+s.size+"px "+(generic?family:JSON.stringify(family)+", sans-serif")}
+function layout(text,s){const context=document.createElement("canvas").getContext("2d");context.font=fontSpec(s);context.textAlign="left";context.textBaseline="alphabetic";
+const lines=text.replace(/\r\n?/g,"\n").split("\n"),ms=lines.map(t=>context.measureText(t));const size=+s.size, step=size*(+s.spacing)/100, width=Math.max(0,...ms.map(m=>m.width));let x0=0,x1=width,y0=0,y1=0;
+const positioned=lines.map((t,i)=>{const m=ms[i];const x=s.align==="left"?0:s.align==="right"?width-m.width:(width-m.width)/2;const y=i*step;x0=Math.min(x0,x-(m.actualBoundingBoxLeft||0));x1=Math.max(x1,x+(m.actualBoundingBoxRight||0));if(t.trim()){y0=Math.min(y0,y-(m.actualBoundingBoxAscent||0));y1=Math.max(y1,y+(m.actualBoundingBoxDescent||0));}else{y0=Math.min(y0,y);y1=Math.max(y1,y);}return {t,x,y};});
+const hasShadow=s.shadow&&+s.shadowOpacity>0;const blur=hasShadow?Math.ceil(+s.blur*3):0,dx=hasShadow?+s.shadowX:0,dy=hasShadow?+s.shadowY:0;const border=Math.ceil(+s.stroke)+(+s.padding)+2;
+const left=Math.floor(x0-border+Math.min(0,dx-blur)),right=Math.ceil(x1+border+Math.max(0,dx+blur)),top=Math.floor(y0-border+Math.min(0,dy-blur)),bottom=Math.ceil(y1+border+Math.max(0,dy+blur));const w=Math.max(1,right-left),h=Math.max(1,bottom-top);
+if(w>MAX_DIM||h>MAX_DIM||w*h>MAX_PIXELS)throw Error(msg("Image too large. Reduce the size or text length.","Изображение слишком большое. Уменьшите размер или длину текста."));
+return {positioned,x0,x1,y0,y1,left,top,w,h};
+}
+function paint(canvas,text,s){const m=layout(text,s);canvas.width=m.w;canvas.height=m.h;const c=canvas.getContext("2d");c.translate(-m.left,-m.top);c.font=fontSpec(s);c.textAlign="left";c.textBaseline="alphabetic";c.lineJoin="round";c.lineCap="round";
+if(s.fill==="gradient"){const a=+s.angle*Math.PI/180,dx=Math.cos(a),dy=Math.sin(a),cx=(m.x0+m.x1)/2,cy=(m.y0+m.y1)/2,half=Math.max(.5,(Math.abs(dx)*(m.x1-m.x0)+Math.abs(dy)*(m.y1-m.y0))/2);const g=c.createLinearGradient(cx-dx*half,cy-dy*half,cx+dx*half,cy+dy*half);g.addColorStop(0,s.color);g.addColorStop(1,s.color2);c.fillStyle=g;}else c.fillStyle=s.color;
+c.lineWidth=2*(+s.stroke||0);c.strokeStyle=s.strokeColor;
+if(s.shadow&&+s.shadowOpacity>0){const h=s.shadowColor.slice(1).match(/../g).map(x=>parseInt(x,16));c.shadowColor="rgba("+h.join(",")+","+(+s.shadowOpacity/100)+")";c.shadowBlur=+s.blur;c.shadowOffsetX=+s.shadowX;c.shadowOffsetY=+s.shadowY;
+// Draw the silhouette once so shadows are not applied again to the fill.
+for(const p of m.positioned){if(+s.stroke)c.strokeText(p.t,p.x,p.y);else c.fillText(p.t,p.x,p.y);}
+c.shadowColor="transparent";}
+for(const p of m.positioned){if(+s.stroke)c.strokeText(p.t,p.x,p.y);c.fillText(p.t,p.x,p.y);}return m}
+let frame=0;
+function schedulePreview(){cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{const text=active?.value.trim()?active.value:filled()[0]?.value;if(!text){$("canvas").hidden=true;$("previewEmpty").hidden=false;$("dimensions").textContent="";return}try{const m=paint($("canvas"),text,readStyle());$("previewEmpty").hidden=true;$("canvas").hidden=false;$("dimensions").textContent=m.w+" × "+m.h+" px";}catch(e){$("canvas").hidden=true;$("previewEmpty").hidden=false;$("dimensions").textContent=e.message;}})}
+$("previewBg").onchange=()=>$("preview").dataset.bg=$("previewBg").value;
+function png(canvas){return new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error("PNG encoding failed")),"image/png"))}
+// Standard uncompressed ZIP (PNG data is already compressed), UTF-8 filenames and CRC-32.
+const crcTable=Uint32Array.from({length:256},(_,i)=>{for(let k=0;k<8;k++)i=i&1?0xedb88320^(i>>>1):i>>>1;return i>>>0});
+function crc32(bytes){let c=0xffffffff;for(const b of bytes)c=crcTable[(c^b)&255]^(c>>>8);return (c^0xffffffff)>>>0}
+function zip(files){const local=[],central=[];let offset=0,centralSize=0;const encoder=new TextEncoder();const now=new Date(),date=((Math.max(1980,now.getFullYear())-1980)<<9)|((now.getMonth()+1)<<5)|now.getDate(),time=(now.getHours()<<11)|(now.getMinutes()<<5)|(now.getSeconds()>>1);
+for(const f of files){const n=encoder.encode(f.name),b=f.data,crc=crc32(b);const lh=new Uint8Array(30+n.length),l=new DataView(lh.buffer);l.setUint32(0,0x04034b50,true);l.setUint16(4,20,true);l.setUint16(6,0x800,true);l.setUint16(10,time,true);l.setUint16(12,date,true);l.setUint32(14,crc,true);l.setUint32(18,b.length,true);l.setUint32(22,b.length,true);l.setUint16(26,n.length,true);lh.set(n,30);local.push(lh,b);
+const ch=new Uint8Array(46+n.length),c=new DataView(ch.buffer);c.setUint32(0,0x02014b50,true);c.setUint16(4,20,true);c.setUint16(6,20,true);c.setUint16(8,0x800,true);c.setUint16(12,time,true);c.setUint16(14,date,true);c.setUint32(16,crc,true);c.setUint32(20,b.length,true);c.setUint32(24,b.length,true);c.setUint16(28,n.length,true);c.setUint32(42,offset,true);ch.set(n,46);central.push(ch);centralSize+=ch.length;offset+=lh.length+b.length;}
+const end=new Uint8Array(22),e=new DataView(end.buffer);e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,centralSize,true);e.setUint32(16,offset,true);return new Blob([...local,...central,end],{type:"application/zip"});}
+async function generate(only){if(busy)return;const texts=(only?[active]:filled()).filter(e=>e?.value.trim()).map(e=>e.value);if(!texts.length)return;const s=readStyle();busy=true;refreshRows();try{for(const t of texts)layout(t,s);const files=[],canvas=document.createElement("canvas");let total=0;
+for(let i=0;i<texts.length;i++){status(msg("Generating ","Генерация ")+(i+1)+" / "+texts.length);await new Promise(r=>requestAnimationFrame(r));paint(canvas,texts[i],s);const blob=await png(canvas);total+=blob.size;if(total>MAX_ZIP)throw Error(msg("Batch too large. Reduce image sizes or export fewer texts.","Пакет слишком большой. Уменьшите размер или число текстов."));const name=String(i+1).padStart(2,"0")+"-"+safeName(texts[i])+".png";files.push({name,data:new Uint8Array(await blob.arrayBuffer())});}canvas.width=canvas.height=1;
+if(files.length===1)download(new Blob([files[0].data],{type:"image/png"}),files[0].name);else download(zip(files),"ScreenCrawler-texts.zip");status(msg("Generated: ","Создано: ")+files.length);
+}catch(e){status(e.message||String(e))}finally{busy=false;refreshRows();}}
+$("export").onclick=()=>generate(false);$("exportOne").onclick=()=>generate(true);
+ensureRow();syncOptions();setLanguage();
+</script></body></html>
