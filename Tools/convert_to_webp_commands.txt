@@ -1,3 +1,5 @@
+python convert_to_webp.py
+
 --source "C:\Pictures"	Выбрать папку с изображениями
 --output "C:\Converted"	Выбрать папку для сохранения
 --delete-originals	Удалить оригиналы после успешной конвертации
