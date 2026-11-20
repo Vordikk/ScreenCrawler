@@ -213,17 +213,19 @@
     },
     {
       "kind": "Presets",
-      "path": "Scary/Котопризрак.scp",
+      "path": "Scary/Котопризрак.scpreset",
       "sha": "39e51282a7484ecfc93d4a6a236fd11b025a7dc5",
       "bytes": 538630,
-      "hasPreview": true
+      "hasPreview": true,
+      "hasRecommendations": false
     },
     {
       "kind": "Presets",
-      "path": "Scary/LSD Дискотека.scp",
+      "path": "Scary/LSD Дискотека.scpreset",
       "sha": "0ed58e55ff5ac6a9dc4a3e7eb80babe2db5eca89",
       "bytes": 3996673,
-      "hasPreview": true
+      "hasPreview": true,
+      "hasRecommendations": false
     }
   ]
 }
